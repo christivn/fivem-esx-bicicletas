@@ -1,5 +1,7 @@
 # fivem-esx-bicicletas
  🚲 Script simple para alquiler de bicicletas [Fivem ESX]
+ 
+ Script para alquiler de bicicletas, se cobra directamente del dinero que se tenga en el banco, y con posibilidad de devolver la bicicleta y que te devuelva algo de dinero del alquiler.
 
 ## Instrucciones de uso
   - Copie todos los archivos del repositorio a `resources` en una carpeta llamada `bicicletas`
