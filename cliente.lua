@@ -2,15 +2,16 @@
 
 local precio = 25
 local puntos = {
-    {x=74.11 ,y=-106.39 ,z=58.19},
-    {x=74.82 ,y=-93.53 ,z=58.15},
-    {x=71.55 ,y=-98.83 ,z=58.15}
+    {x=-582.42 ,y=319.22 ,z=84.85},
+    {x=-570.1 ,y=323.52 ,z=84.49}
 }
 
 ----------------------------------------
 
 ESX = nil
 local tieneBicicleta = false
+local matriculaGenerada = math.random(0,99999)
+local matriculaBici = nil
 
 Citizen.CreateThread(function()
 	while true do
@@ -26,18 +27,35 @@ Citizen.CreateThread(function()
             DrawMarker(38, punto.x, punto.y, punto.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 2.0, 59, 169, 219, 50, false, true, 2, nil, nil, false)
             DrawMarker(27, punto.x, punto.y, punto.z-1, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 2.0, 2.0, 2.0, 59, 169, 219, 50, false, true, 2, nil, nil, false)
             
+            if IsPedInAnyVehicle(PlayerPedId(), false) and matriculaBici==nil then
+                local bici = GetVehiclePedIsIn(PlayerPedId(), false)
+                ESX.Game.SetVehicleProperties(bici, { plate = matriculaGenerada })
+                matriculaBici = ESX.Game.GetVehicleProperties(bici).plate
+            end
+
             if GetDistanceBetweenCoords(punto.x, punto.y, punto.z-1, x, y, z) < 1.5 and tieneBicicleta==false then
                 Draw3DText( punto.x, punto.y, punto.z, 2, "Pulsa ~b~E ~w~para alquilar una bicicleta por ~b~"..precio.."€")
                 if IsControlJustPressed(1,38) then
                     spawn_bicicleta()
                     TriggerServerEvent("bicicletas:cobrar")
+                    ESX.ShowNotification("Has alquilado una bicicleta por ~g~"..precio.."€")
                 end
+
             elseif GetDistanceBetweenCoords(punto.x, punto.y, punto.z-1, x, y, z) < 1.5 and tieneBicicleta==true then
                 Draw3DText( punto.x, punto.y, punto.z, 2, "Pulsa ~b~E ~w~para devolver la bicicleta")
                 if IsControlJustPressed(1,38) then
-                    TriggerEvent('esx:deleteVehicle', "bmx")
-                    TriggerServerEvent("bicicletas:entregar")
-                    tieneBicicleta=false
+                    local bici = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+                    local biciData = ESX.Game.GetVehicleProperties(bici)
+
+                    if biciData.plate==matriculaBici then
+                        TriggerServerEvent("bicicletas:entregar")
+                        ESX.Game.DeleteVehicle(bici)
+                        tieneBicicleta=false
+                        ESX.ShowNotification("Has entregado la bicicleta, y se te a devuelto ~g~"..math.ceil(precio/2).."€")
+                    else
+                        ESX.ShowNotification("~r~Esta no es la bicicleta que alquilastes")
+                    end
+
                 end
             end
 
@@ -51,8 +69,8 @@ function spawn_bicicleta()
 	DoScreenFadeOut(1000)
 	Citizen.Wait(1000)
 	TriggerEvent('esx:spawnVehicle', "bmx")
+	DoScreenFadeIn(2000)
     tieneBicicleta = true;
-	DoScreenFadeIn(2000) 
 end
 
 
