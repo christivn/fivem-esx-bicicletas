@@ -10,7 +10,6 @@ local puntos = {
 
 ESX = nil
 local tieneBicicleta = false
-local matriculaGenerada = math.random(0,99999)
 local matriculaBici = nil
 
 Citizen.CreateThread(function()
@@ -28,6 +27,7 @@ Citizen.CreateThread(function()
             DrawMarker(27, punto.x, punto.y, punto.z-1, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 2.0, 2.0, 2.0, 59, 169, 219, 50, false, true, 2, nil, nil, false)
             
             if IsPedInAnyVehicle(PlayerPedId(), false) and matriculaBici==nil then
+		local matriculaGenerada = math.random(0,99999)
                 local bici = GetVehiclePedIsIn(PlayerPedId(), false)
                 ESX.Game.SetVehicleProperties(bici, { plate = matriculaGenerada })
                 matriculaBici = ESX.Game.GetVehicleProperties(bici).plate
