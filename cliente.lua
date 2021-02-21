@@ -64,15 +64,6 @@ Citizen.CreateThread(function()
 end)
 
 
-function spawn_bicicleta() 
-	DoScreenFadeOut(1000)
-	Citizen.Wait(1000)
-	TriggerEvent('esx:spawnVehicle', "bmx")
-	DoScreenFadeIn(2000)
-    tieneBicicleta = true
-end
-
-
 RegisterNetEvent('bicicletas:cobroResultado')
 AddEventHandler('bicicletas:cobroResultado', function(resultado)
     if resultado=="ok" then 
@@ -82,6 +73,15 @@ AddEventHandler('bicicletas:cobroResultado', function(resultado)
         ESX.ShowNotification("~r~No tienes suficiente dinero en el banco")
     end
 end)
+
+
+function spawn_bicicleta() 
+	DoScreenFadeOut(1000)
+	Citizen.Wait(1000)
+	TriggerEvent('esx:spawnVehicle', "bmx")
+	DoScreenFadeIn(2000)
+    tieneBicicleta = true
+end
 
 
 function Draw3DText(x, y, z, scl_factor, text)
