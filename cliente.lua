@@ -51,6 +51,7 @@ Citizen.CreateThread(function()
 				TriggerServerEvent("bicicletas:entregar")
 				ESX.Game.DeleteVehicle(bici)
 				tieneBicicleta=false
+				matriculaBici = nil
 				ESX.ShowNotification("Has entregado la bicicleta, y se te a devuelto ~g~"..math.ceil(precio/2).."€")
 			    else
 				ESX.ShowNotification("~r~Esta no es la bicicleta que alquilastes")
