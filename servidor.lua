@@ -10,10 +10,10 @@ AddEventHandler("bicicletas:cobrar", function()
     local banco = xPlayer.getAccount("bank").money
 
     if banco==nil or banco<precio then
-		TriggerClientEvent('bicicletas:cobroResultado', _source, "error", "No tienes suficiente dinero en el banco")
+		TriggerClientEvent('bicicletas:cobroResultado', _source, "error")
 	else
 		xPlayer.removeAccountMoney("bank", precio)
-		TriggerClientEvent('bicicletas:cobroResultado', _source, "success", "Has alquilado una bicicleta")
+		TriggerClientEvent('bicicletas:cobroResultado', _source, "ok")
 	end
 end)
 
