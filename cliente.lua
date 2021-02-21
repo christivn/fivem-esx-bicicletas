@@ -70,7 +70,7 @@ function spawn_bicicleta()
 	Citizen.Wait(1000)
 	TriggerEvent('esx:spawnVehicle', "bmx")
 	DoScreenFadeIn(2000)
-    tieneBicicleta = true;
+	tieneBicicleta = true
 end
 
 
